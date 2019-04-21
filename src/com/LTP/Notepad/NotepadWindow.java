@@ -9,13 +9,13 @@ public class NotepadWindow {
 
     Notepad notepad;
 
-    private JFrame    notepadWindow;
+    private JFrame notepadWindow;
 
     private JPanel    textPanel;
     private JTextArea textArea;
 
-    private JMenuBar  menuBar;
-    private JMenu     fileMenu;
+    private JMenuBar menuBar;
+    private JMenu    fileMenu;
 
     private JMenuItem createFileItem;
     private JMenuItem openFileItem;
@@ -48,6 +48,7 @@ public class NotepadWindow {
 
         fileMenu.add(createFileItem);
         fileMenu.add(openFileItem);
+        fileMenu.add(saveFileItem);
         fileMenu.add(exitItem);
 
         menuBar.add(fileMenu);
@@ -61,7 +62,7 @@ public class NotepadWindow {
 
         textPanel.add(new JScrollPane(textArea), BorderLayout.CENTER);
 
-        notepadWindow.add(textArea);
+        notepadWindow.add(textPanel);
 
         notepad = new Notepad(textArea);
     }
