@@ -11,7 +11,7 @@ public class Notepad {
     private File currentFile;
 
     public Notepad(JTextArea text) {
-        this.textArea = text;
+        textArea = text;
     }
 
     public void CreateFileAction() {
@@ -24,19 +24,32 @@ public class Notepad {
         fileChooser.showOpenDialog(null);
         currentFile = fileChooser.getSelectedFile();
 
-        textArea.setText(new String(GetTextAreaValue(currentFile.length()), StandardCharsets.UTF_8));
+        textArea.setText(GetTextAreaValue());
     }
 
     public void SaveFileAction() {
+        JFileChooser fileChooser = new JFileChooser();
+
+        if (fileChooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
+            try {
+                FileWriter fileWriter = new FileWriter(fileChooser.getSelectedFile().getPath());
+                currentFile = fileChooser.getSelectedFile();
+                BufferedWriter out = new BufferedWriter(fileWriter);
+                out.write(GetTextAreaValue());
+                out.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
 
     }
 
     public void ExitAction() {
-
+        System.exit(0);
     }
 
-    protected byte[] GetTextAreaValue(long lengthFile) {
-        byte[] fileBytes = new byte[(int) lengthFile];
+    protected String GetTextAreaValue() {
+        byte[] fileBytes = new byte[(int) currentFile.length()];
 
         try {
             FileInputStream stream = new FileInputStream(currentFile);
@@ -45,8 +58,8 @@ public class Notepad {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        return fileBytes;
+        String res = new String(fileBytes, StandardCharsets.UTF_8);
+        return res;
     }
 
 }
